@@ -15,6 +15,12 @@ export default async (req, res) => {
 			message: 'name is required',
 		});
 	}
+	if (!name.match(/^[a-zA-Z ]{2,32}$/)) {
+		return res.status(400).json({
+			success: false,
+			message: 'name must be alphabetic and contain 2-32 characters',
+		});
+	}
 	const categories = await Categories.findOne({
 		where: {
 			id,
@@ -31,6 +37,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Category updated successfully',
 		data: categories,
 	});
 };
