@@ -16,7 +16,6 @@ export default async (req, res) => {
 			},
 			include: [UserExam],
 		});
-		console.log(revision);
 		const questionsArray = revision.UserExam.exam_questions.split(',');
 		let questions = await Question.findAll({});
 		questions = questions.filter((question) =>
@@ -25,6 +24,7 @@ export default async (req, res) => {
 		revision.questions = questions;
 		return res.status(200).send({
 			success: true,
+			message: 'Revision found',
 			data: revision,
 		});
 	}
