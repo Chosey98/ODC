@@ -1,3 +1,3 @@
-submitExam
-getExam
-getAllExams
+submitExam for user to get evaluated
+getExam for user
+getAllExams available for course for user
