@@ -2,3 +2,4 @@ submitExam for user to get evaluated
 getExam for user
 getAllExams available for course for user
 validtion on question create
+validation on updateProfile
