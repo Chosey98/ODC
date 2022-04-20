@@ -2,7 +2,6 @@ import conn from '../../../conn';
 const { Exam, Question, Task } = conn.models;
 export default async (req, res) => {
 	const { examId, questionsArray } = req.body;
-	console.log(req.body);
 	if (
 		!examId ||
 		!questionsArray ||
@@ -14,6 +13,12 @@ export default async (req, res) => {
 			message: 'examId and questionsArray are required',
 		});
 	}
+	if (isNaN(examId)) {
+		return res.status(400).json({
+			success: false,
+			message: 'examId must be a number',
+		});
+	}
 	const exam = await Exam.findOne({
 		where: {
 			id: examId,
@@ -21,6 +26,7 @@ export default async (req, res) => {
 	});
 	if (!exam) {
 		return res.status(404).json({
+			success: false,
 			message: 'Exam not found',
 		});
 	}
@@ -73,6 +79,7 @@ export default async (req, res) => {
 	}
 	return res.status(200).send({
 		success: true,
+		message: 'Questions created successfully',
 		data: questions,
 	});
 };

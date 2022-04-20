@@ -21,6 +21,7 @@ export default async (req, res) => {
 	}
 	return res.status(200).send({
 		success: true,
+		message: 'Question found successfully',
 		data: question,
 	});
 };
