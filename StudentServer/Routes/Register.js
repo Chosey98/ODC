@@ -22,44 +22,42 @@ export default async (req, res) => {
 			message: 'Email already exists',
 		});
 	}
-	if (password.length < 8) {
+	if (
+		!email.match(
+			/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		)
+	) {
 		return res.status(400).send({
 			success: false,
-			message: 'Password must be at least 8 characters',
+			message: 'email is invalid',
 		});
 	}
-	if (password.length > 32) {
+	if (!phoneNumber.match(/^[0-9]{11}$/)) {
 		return res.status(400).send({
 			success: false,
-			message: 'Password cannot be more than 32 characters',
+			message: 'phoneNumber must be numeric and contains 11 digits',
 		});
 	}
-	const upperCase = new RegExp(/[A-Z]/g);
-	if (upperCase.test(password) == false) {
+	if (
+		!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/)
+	) {
 		return res.status(400).send({
 			success: false,
-			message: 'Password must contain at least one uppercase letter',
+			message:
+				'password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter and one number',
 		});
 	}
-	const lowerCase = new RegExp(/[a-z]/g);
-	if (lowerCase.test(password) == false) {
+	if (!name.match(/^[a-zA-Z ]{2,32}$/)) {
 		return res.status(400).send({
 			success: false,
-			message: 'Password must contain at least one lowercase letter',
+			message: 'name must be alphabetic and contain 2-32 characters',
 		});
 	}
-	const number = new RegExp(/[0-9]/g);
-	if (number.test(password) == false) {
+	if (!address.match(/^[a-zA-Z0-9 ]{12,}$/)) {
 		return res.status(400).send({
 			success: false,
-			message: 'Password must contain at least one number',
-		});
-	}
-	const special = new RegExp(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g);
-	if (special.test(password) == false) {
-		return res.status(400).send({
-			success: false,
-			message: 'Password must contain at least one special character',
+			message:
+				'address must be alphanumeric and contain at least 12 characters',
 		});
 	}
 	const passwordHash = bcrypt.hashSync(password, 10);
@@ -91,6 +89,7 @@ export default async (req, res) => {
 	);
 	return res.status(200).send({
 		success: true,
-		data: { newStudent, access_token, refresh_token },
+		message: 'Register successful',
+		data: { student: newStudent, access_token, refresh_token },
 	});
 };

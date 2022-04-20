@@ -11,6 +11,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Student fetched successfully',
 		data: student,
 	});
 };
