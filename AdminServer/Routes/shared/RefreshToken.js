@@ -27,7 +27,6 @@ export default async (req, res) => {
 		process.env.SECRET_KEY,
 		{ expiresIn: '7d' }
 	);
-	console.log(req.user);
 	await ExpiredToken.create({
 		token: req.headers.authorization.split(' ')[1],
 		type: 'refresh',
@@ -35,6 +34,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Token refreshed',
 		data: {
 			access_token,
 			refresh_token,
