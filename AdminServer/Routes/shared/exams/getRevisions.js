@@ -15,6 +15,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Revisions found successfully',
 		data: revisions,
 	});
 };

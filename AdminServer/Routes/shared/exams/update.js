@@ -9,11 +9,28 @@ export default async (req, res) => {
 			message: 'id must be a name',
 		});
 	}
-	if (!courseId && !numberOfQuestions) {
+	if (!courseId || !numberOfQuestions) {
 		return res.status(400).json({
 			success: false,
-			message: 'courseId and numberOfQuestions are required',
+			message:
+				'courseId and numberOfQuestions are optional, but one of them is required',
 		});
+	}
+	if (courseId) {
+		if (isNaN(courseId)) {
+			return res.status(400).json({
+				success: false,
+				message: 'courseId must be a number',
+			});
+		}
+	}
+	if (numberOfQuestions) {
+		if (isNaN(numberOfQuestions)) {
+			return res.status(400).json({
+				success: false,
+				message: 'numberOfQuestions must be a number',
+			});
+		}
 	}
 	const exam = await Exam.findOne({
 		where: {
@@ -33,6 +50,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Exam updated successfully',
 		data: updatedExam,
 	});
 };
