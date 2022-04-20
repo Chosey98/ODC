@@ -36,6 +36,7 @@ export default async (req, res) => {
 	});
 	res.status(200).send({
 		sucess: true,
+		message: 'All subadmins found',
 		data: admins.filter((admin) => admin.Role.role_name !== 'admin'),
 	});
 };
