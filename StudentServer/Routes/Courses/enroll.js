@@ -18,13 +18,15 @@ export default async (req, res) => {
 	});
 	if (enroll) {
 		if (cancel !== undefined) {
-			await enroll.update({
-				status: 'cancelled',
-			});
-			return res.status(200).send({
-				success: true,
-				message: 'Cancelled enroll successfully',
-			});
+			if (cancel == true) {
+				await enroll.update({
+					status: 'cancelled',
+				});
+				return res.status(200).send({
+					success: true,
+					message: 'Cancelled enroll successfully',
+				});
+			}
 		}
 		return res.status(400).send({
 			success: false,
@@ -49,6 +51,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Enrolled successfully',
 		data: newEnroll,
 	});
 };
