@@ -9,6 +9,18 @@ export default async (req, res) => {
 			message: 'id must be a number',
 		});
 	}
+	if (filter) {
+		if (
+			filter !== 'pending' ||
+			filter !== 'approved' ||
+			filter !== 'rejected'
+		) {
+			return res.status(400).send({
+				success: false,
+				message: 'filter must be pending, approved or rejected',
+			});
+		}
+	}
 	const course = await Course.findOne({
 		where: {
 			id,
@@ -27,6 +39,7 @@ export default async (req, res) => {
 	});
 	return res.status(200).send({
 		success: true,
+		message: 'Enrolls found successfully',
 		data: enrolls.filter((e) => (!filter ? e : e.status === filter)),
 	});
 };

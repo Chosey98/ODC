@@ -18,7 +18,7 @@ export default (connection) => {
 				allowNull: false,
 			},
 			status: {
-				type: DataTypes.STRING,
+				type: DataTypes.ENUM('pending', 'approved', 'rejected'),
 				allowNull: false,
 				defaultValue: 'pending',
 			},

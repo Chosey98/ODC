@@ -15,6 +15,38 @@ export default async (req, res) => {
 			message: 'name, categoryId, level, and enrollable are required',
 		});
 	}
+	if (name) {
+		if (!name.match(/^[a-zA-Z ]{2,32}$/)) {
+			return res.status(400).send({
+				success: false,
+				message: 'name must be alphabetic and contain 2-32 characters',
+			});
+		}
+	}
+	if (categoryId) {
+		if (isNaN(categoryId)) {
+			return res.status(400).send({
+				success: false,
+				message: 'categoryId must be a number',
+			});
+		}
+	}
+	if (level) {
+		if (isNaN(level)) {
+			return res.status(400).send({
+				success: false,
+				message: 'level must be a number',
+			});
+		}
+	}
+	if (enrollable) {
+		if (typeof enrollable !== 'boolean') {
+			return res.status(400).send({
+				success: false,
+				message: 'enrollable must be a boolean',
+			});
+		}
+	}
 	const course = await Course.findOne({
 		where: {
 			id,
