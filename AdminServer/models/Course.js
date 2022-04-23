@@ -30,6 +30,26 @@ export default (connection) => {
 				allowNull: false,
 				defaultValue: true,
 			},
+			entryExamId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			exam1: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			exam2: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			exam3: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+			finalProject: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
 		},
 		{ timestamps: true, updatedAt: false }
 	);
