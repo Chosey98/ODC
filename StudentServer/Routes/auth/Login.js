@@ -1,4 +1,4 @@
-import conn from '../conn';
+import conn from '../../conn';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const { Student } = conn.models;

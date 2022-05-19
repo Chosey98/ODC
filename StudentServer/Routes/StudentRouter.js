@@ -1,13 +1,19 @@
 import { Router } from 'express';
 import passport from 'passport';
 import unless from '../util/unless';
-import Register from './Register';
-import Login from './Login';
-import RefreshToken from './RefreshToken';
+import Register from './auth/Register';
+import Login from './auth/Login';
+import RefreshToken from './auth/RefreshToken';
 import CourseController from './Courses/CourseController';
 import getProfile from './getProfile';
 import updateProfile from './updateProfile';
-import Logout from './Logout';
+import Logout from './auth/Logout';
+import forgetPassword from './auth/forgetPassword';
+import verifyOtp from './auth/verifyOtp';
+import resetPassword from './auth/ResetPassword';
+import getAllCat from './Categories/getAllCat';
+import getCatById from './Categories/getCatById';
+import getCoursesByCat from './Categories/getCoursesByCat';
 const router = Router();
 
 router.use(
@@ -20,6 +26,9 @@ router.use(
 
 router.get('/me', getProfile);
 router.patch('/me', updateProfile);
+router.post('/forgetPassword', forgetPassword);
+router.post('/verifyOtp', verifyOtp);
+router.post('/resetPassword', resetPassword);
 router.post('/login', Login);
 router.post('/logout', Logout);
 router.post('/register', Register);
@@ -34,5 +43,7 @@ router.post(
 
 // Courses controller
 router.use('/courses', CourseController);
-
+router.get('/categories', getAllCat);
+router.get('/categories/:id', getCatById);
+router.get('/categories/:id/courses', getCoursesByCat);
 export default router;

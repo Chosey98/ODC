@@ -10,6 +10,7 @@ import TaskModel from './Task';
 import ExpiredTokenModel from './ExpiredToken';
 import RoleModel from './Role';
 import UserExamModel from './UserExam';
+import ResetTokenModel from './ResetToken';
 export default (connection) => {
 	const models = [
 		EnrollModel,
@@ -24,6 +25,7 @@ export default (connection) => {
 		ExpiredTokenModel,
 		RoleModel,
 		UserExamModel,
+		ResetTokenModel,
 	];
 	for (let model of models) {
 		model(connection);
@@ -41,8 +43,14 @@ export default (connection) => {
 		ExpiredToken,
 		Role,
 		UserExam,
+		ResetToken,
 	} = connection.models;
-
+	Student.hasOne(ResetToken, {
+		foreignKey: 'id',
+	});
+	ResetToken.belongsTo(Student, {
+		foreignKey: 'id',
+	});
 	// Students relationship
 	Student.hasMany(Enroll, { foreignKey: 'student_id' });
 	Enroll.belongsTo(Student, { foreignKey: 'student_id' });

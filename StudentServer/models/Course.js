@@ -54,3 +54,6 @@ export default (connection) => {
 		{ timestamps: true, updatedAt: false }
 	);
 };
+
+// Add description
+// Add Instructor

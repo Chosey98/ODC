@@ -19,6 +19,12 @@ export default async (req, res) => {
 			},
 		],
 	});
+	if (!course) {
+		return res.status(404).json({
+			success: false,
+			message: 'Course not found',
+		});
+	}
 	return res.status(200).send({
 		success: true,
 		message: 'Course fetched successfully',

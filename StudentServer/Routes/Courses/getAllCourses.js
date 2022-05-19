@@ -1,5 +1,5 @@
 import conn from '../../conn';
-const { Course, Categories } = conn.models;
+const { Course, Categories, Admin } = conn.models;
 export default async (req, res) => {
 	const courses = await Course.findAll({
 		attributes: {

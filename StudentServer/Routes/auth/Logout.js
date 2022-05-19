@@ -1,4 +1,4 @@
-import conn from '../conn';
+import conn from '../../conn';
 const { ExpiredToken } = conn.models;
 
 export default async (req, res) => {
@@ -14,9 +14,11 @@ export default async (req, res) => {
 			message: 'Token is expired already',
 		});
 	}
+	console.log(req.user);
 	await ExpiredToken.create({
 		token,
 		type: 'access',
+		eat: req.user.exp,
 	});
 	return res.status(200).send({
 		success: true,

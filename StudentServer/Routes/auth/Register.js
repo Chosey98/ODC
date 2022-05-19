@@ -1,4 +1,4 @@
-import conn from '../conn';
+import conn from '../../conn';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const { Student } = conn.models;
@@ -32,10 +32,10 @@ export default async (req, res) => {
 			message: 'email is invalid',
 		});
 	}
-	if (!phoneNumber.match(/^[0-9]{11}$/)) {
+	if (!phone.match(/^[0-9]{11}$/)) {
 		return res.status(400).send({
 			success: false,
-			message: 'phoneNumber must be numeric and contains 11 digits',
+			message: 'phone must be numeric and contains 11 digits',
 		});
 	}
 	if (

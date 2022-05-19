@@ -5,6 +5,8 @@ import bodyParser from 'body-parser';
 import StudentRouter from './Routes/StudentRouter';
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+import Responses from './util/responses';
+import helper from './util/helper';
 
 const JwtStrategy = Strategy;
 const app = express();
@@ -34,12 +36,20 @@ passport.use(
 				},
 			});
 			if (student) {
-				return done(null, student);
+				return done(null, { ...student, ...payload });
 			}
 			return done(null, false);
 		}
 	)
 );
+app.use((req, res, next) => {
+	req.responses = Responses;
+	req.helper = helper;
+	req.db = {
+		models: conn.models,
+	};
+	next();
+});
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

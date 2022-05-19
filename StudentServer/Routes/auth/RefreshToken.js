@@ -1,4 +1,4 @@
-import conn from '../conn';
+import conn from '../../conn';
 import jwt from 'jsonwebtoken';
 const { ExpiredToken } = conn.models;
 export default async (req, res) => {
