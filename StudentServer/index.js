@@ -77,8 +77,8 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+pp.use('/assets', express.static('assets'));
 // Routes
-app.use('/', StudentRouter);
+app.use('/api/v1', StudentRouter);
 
 app.listen(3000, () => console.log('Server is running on port 3000'));

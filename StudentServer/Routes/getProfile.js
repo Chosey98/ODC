@@ -10,16 +10,15 @@ export default async (req, res) => {
 		},
 		include: [Enroll],
 	});
-	const achievements = student.Enrolls.filter(
-		(enroll) => enroll.status === 'approved'
-	);
-	student.dataValues.achievements = achievements;
 	return res.status(200).send({
 		success: true,
 		message: 'Student fetched successfully',
 		data: {
-			student,
-			enrolls: student.Enrolls,
+			...student,
+			achievements: student.Enrolls.filter(
+				(enroll) => enroll.status === 'approved'
+			),
+			enrolls: Student.Enrolls,
 		},
 	});
 };
