@@ -8,10 +8,16 @@ export default async (req, res) => {
 		attributes: {
 			exclude: ['passwordHash'],
 		},
+		include: [Enroll],
 	});
 	return res.status(200).send({
 		success: true,
 		message: 'Student fetched successfully',
-		data: student,
+		data: {
+			...student,
+			achievements: student.Enrolls.filter(
+				(enroll) => enroll.status === 'approved'
+			),
+		},
 	});
 };

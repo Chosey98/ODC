@@ -19,13 +19,14 @@ export default (connection) => {
 			},
 			status: {
 				type: DataTypes.ENUM(
-					'pending',
+					'exam_pending',
+					'hr_pending',
 					'approved',
 					'rejected',
 					'cancelled'
 				),
 				allowNull: false,
-				defaultValue: 'pending',
+				defaultValue: 'exam_pending',
 			},
 		},
 		{ timestamps: true, updatedAt: false }

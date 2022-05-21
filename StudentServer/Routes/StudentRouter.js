@@ -14,6 +14,7 @@ import resetPassword from './auth/ResetPassword';
 import getAllCat from './Categories/getAllCat';
 import getCatById from './Categories/getCatById';
 import getCoursesByCat from './Categories/getCoursesByCat';
+import getPrivacyPolicy from './misc/getPrivacyPolicy';
 const router = Router();
 
 router.use(
@@ -21,16 +22,15 @@ router.use(
 		'/login',
 		'/register',
 		'/refreshToken',
+		'/forgetPassword',
+		'/verifyOtp',
+		'/resetPassword',
+		'/privacy-policy',
 	])
 );
 
-router.get('/me', getProfile);
-router.patch('/me', updateProfile);
-router.post('/forgetPassword', forgetPassword);
-router.post('/verifyOtp', verifyOtp);
-router.post('/resetPassword', resetPassword);
+router.get('/privacy-policy', getPrivacyPolicy);
 router.post('/login', Login);
-router.post('/logout', Logout);
 router.post('/register', Register);
 router.post(
 	'/refreshToken',
@@ -40,6 +40,12 @@ router.post(
 	}),
 	RefreshToken
 );
+router.get('/me', getProfile);
+router.patch('/me', updateProfile);
+router.post('/forgetPassword', forgetPassword);
+router.post('/verifyOtp', verifyOtp);
+router.post('/resetPassword', resetPassword);
+router.post('/logout', Logout);
 
 // Courses controller
 router.use('/courses', CourseController);

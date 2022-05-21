@@ -5,7 +5,14 @@ export default async (req, res) => {
 		where: {
 			id: req.params.id,
 		},
-		include: [Question],
+		include: [
+			{
+				model: Question,
+				attributes: {
+					exclude: ['correct_answer'],
+				},
+			},
+		],
 	});
 	return res.status(200).send({
 		success: true,
