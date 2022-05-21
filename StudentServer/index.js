@@ -42,6 +42,30 @@ passport.use(
 		}
 	)
 );
+passport.use(
+	'jwt-refresh',
+	new JwtStrategy(
+		{
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			secretOrKey: process.env.SECRET_KEY,
+			jsonWebTokenOptions: {
+				maxAge: '7d',
+			},
+		},
+		async (payload, done) => {
+			const student = await Student.findOne({
+				where: {
+					id: payload.id,
+				},
+			});
+			if (student) {
+				return done(null, { ...student, ...payload });
+			}
+			return done(null, false);
+		}
+	)
+);
+
 app.use((req, res, next) => {
 	req.responses = Responses;
 	req.helper = helper;

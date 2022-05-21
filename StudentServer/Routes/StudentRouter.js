@@ -15,6 +15,10 @@ import getAllCat from './Categories/getAllCat';
 import getCatById from './Categories/getCatById';
 import getCoursesByCat from './Categories/getCoursesByCat';
 import getPrivacyPolicy from './misc/getPrivacyPolicy';
+import ExamController from './Exams/ExamController';
+import getExam from './Exams/getExam';
+import submitExam from './Exams/submitExam';
+import changeStatus from './Exams/changeStatus';
 const router = Router();
 
 router.use(
@@ -34,7 +38,7 @@ router.post('/login', Login);
 router.post('/register', Register);
 router.post(
 	'/refreshToken',
-	passport.authenticate('jwt-shared', {
+	passport.authenticate('jwt-refresh', {
 		session: false,
 		ignoreExpiration: true,
 	}),
@@ -52,4 +56,8 @@ router.use('/courses', CourseController);
 router.get('/categories', getAllCat);
 router.get('/categories/:id', getCatById);
 router.get('/categories/:id/courses', getCoursesByCat);
+
+router.get('/exams/:code', getExam);
+router.post('/exams/:code/submit', submitExam);
+router.post('/changeEnrollStatus', changeStatus);
 export default router;

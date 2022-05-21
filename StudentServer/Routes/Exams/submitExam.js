@@ -2,16 +2,23 @@ import conn from '../../conn';
 
 export default async (req, res) => {
 	const { UserExam, Exam, Question, Revision, Enroll } = conn.models;
-	const { examCode, answers } = req.body;
-	if (!examCode) {
+	const { answers } = req.body;
+	const { code } = req.params;
+	if (!code) {
 		return res.status(400).json({
 			success: false,
-			message: 'Exam code is required',
+			message: 'code is required',
+		});
+	}
+	if (!answers) {
+		return res.status(400).json({
+			success: false,
+			message: 'answers are required',
 		});
 	}
 	const userExam = await UserExam.findOne({
 		where: {
-			exam_code: examCode,
+			exam_code: code,
 		},
 	});
 	if (!userExam) {
@@ -32,6 +39,12 @@ export default async (req, res) => {
 			message: 'This exam has already been taken',
 		});
 	}
+	if (answers.length < userExam.exam_questions.split(', ').length) {
+		return res.status(400).json({
+			success: false,
+			message: 'You have not answered all the questions',
+		});
+	}
 	await userExam.update({
 		exam_answers: answers.join(', '),
 	});
@@ -40,8 +53,9 @@ export default async (req, res) => {
 			id: userExam.revision_id,
 		},
 	});
+	console.log('rev');
 	const questions = [];
-	const mark = 0;
+	let mark = 0;
 	const questionIds = userExam.exam_questions.split(', ');
 	for (let question of questionIds) {
 		const questionObj = await Question.findOne({
@@ -49,6 +63,7 @@ export default async (req, res) => {
 				id: question,
 			},
 		});
+		console.log('ques');
 		questions.push(questionObj);
 	}
 	const userAnswers = userExam.exam_answers.split(', ');
@@ -67,9 +82,10 @@ export default async (req, res) => {
 	});
 	const exam = await Exam.findOne({
 		where: {
-			id: userExam.exam_id,
+			id: revision.exam_id,
 		},
 	});
+	console.log('ex');
 	const totalMark = exam.number_of_questions;
 	let status = 'hr_pending';
 	if (mark >= totalMark * 0.6) {
@@ -77,8 +93,16 @@ export default async (req, res) => {
 	} else {
 		status = 'rejected';
 	}
-	await Enroll.update({
-		status,
+	const enroll = await Enroll.findOne({
+		where: {
+			student_id: req.user.id,
+			status: 'exam_pending',
+		},
+	});
+	await enroll.update({
+		where: {
+			status,
+		},
 	});
 	res.status(200).json({
 		success: true,

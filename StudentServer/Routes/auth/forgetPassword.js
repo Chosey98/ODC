@@ -1,8 +1,4 @@
-// import nodemailer from 'nodemailer';
-import sgMail from '@sendgrid/mail';
-sgMail.setApiKey(
-	'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'
-);
+import nodemailer from 'nodemailer';
 async function forgetPassword(req, res) {
 	const { ResetToken } = req.db.models;
 	const { email } = req.body;
@@ -31,12 +27,21 @@ async function forgetPassword(req, res) {
 	}
 	const token = req.helper.generateToken();
 	const msg = {
-		from: 'bosayousef981@gmail.com',
+		from: `ODC Academy <${process.env.EMAIL}`,
 		to: email,
 		subject: 'Reset Password',
+
 		html: `Your 4 digit code: <h1>${token}</h1>`,
 	};
-	await sgMail.send(msg);
+	const transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: process.env.EMAIL,
+			pass: process.env.PASSWORD,
+		},
+	});
+	await transporter.sendMail(msg);
+
 	const previousResetTokens = await ResetToken.findAll({
 		where: {
 			userId: user.id,

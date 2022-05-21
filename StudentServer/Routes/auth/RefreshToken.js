@@ -1,6 +1,6 @@
 import conn from '../../conn';
 import jwt from 'jsonwebtoken';
-const { ExpiredToken } = conn.models;
+const { ExpiredToken, Admin } = conn.models;
 export default async (req, res) => {
 	if (req.user.refresh === undefined) {
 		return res.status(400).send({

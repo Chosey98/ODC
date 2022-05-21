@@ -36,7 +36,7 @@ export default (connection) => {
 				defaultValue: false,
 			},
 			eat: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING,
 				allowNull: false,
 			},
 		},
