@@ -29,7 +29,7 @@ async function resetPassword(req, res) {
 		return req.responses.badRequest(res, 'ValidationError', 'Invalid otp');
 	}
 	await user.update({
-		password_hash: bcrypt.hashSync(password, 10),
+		passwordHash: bcrypt.hashSync(password, 10),
 	});
 	await resetToken.destroy();
 	// Create tokens
