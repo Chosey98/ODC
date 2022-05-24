@@ -50,6 +50,10 @@ export default (connection) => {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
+			image_url: {
+				types: DataTypes.STRING(255),
+				allowNull: false,
+			},
 		},
 		{ timestamps: true, updatedAt: false }
 	);
